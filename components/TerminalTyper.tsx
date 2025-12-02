@@ -5,9 +5,9 @@ interface TerminalTyperProps {
 }
 
 const texts = {
-  prompt: 'alexander-thomas-ames > ',
-  command: 'lets-collab?',
-  comment: ' # click here',
+  prompt: 'media-share > ',
+  command: 'upload-media',
+  comment: ' # click to upload',
 };
 
 const fullLine = texts.prompt + texts.command + texts.comment;

@@ -1,17 +1,36 @@
-import React from 'react';
-import { PHOTOGRAPHY_IMAGES, ACTING_STILLS, TECH_NERD_PROFILE, ABOUT_ME, HEADSHOT_1 } from '../constants';
+import React, { useState } from 'react';
+import { STILL_LIFE_IMAGES, MOVING_IMAGES_VIDEOS, MUSIC_TRACKS, ABOUT_INFO } from '../constants';
+import FileUploadButton from './FileUploadButton';
 
-export const PhotographyView: React.FC = () => {
+export const StillLifeView: React.FC = () => {
+  const [images, setImages] = useState(STILL_LIFE_IMAGES);
+
+  const handleImageUpload = (file: File) => {
+    // Create a local preview URL
+    const imageUrl = URL.createObjectURL(file);
+    // In production, upload to Backblaze B2 and get the URL
+    setImages([imageUrl, ...images]);
+    console.log('Image uploaded:', file.name);
+  };
+
   return (
     <div>
-      <h2 className="font-pixel text-4xl uppercase mb-8 text-center">Photography</h2>
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <h2 className="font-pixel text-4xl uppercase">Still Life</h2>
+        <FileUploadButton
+          accept="image/*"
+          onFileSelect={handleImageUpload}
+          label="Upload Photo"
+          maxSize={500 * 1024 * 1024}
+        />
+      </div>
       <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
-        {PHOTOGRAPHY_IMAGES.map((src, index) => (
+        {images.map((src, index) => (
           <img
             key={index}
             src={src}
-            alt={`Still Photography ${index + 1}`}
-            className="mb-4 w-full h-auto block border-4 border-brand-fg shadow-hard"
+            alt={`Still Life ${index + 1}`}
+            className="mb-4 w-full h-auto block border-4 border-brand-fg shadow-hard cursor-pointer hover:opacity-90 transition-opacity"
           />
         ))}
       </div>
@@ -19,106 +38,51 @@ export const PhotographyView: React.FC = () => {
   );
 };
 
-const resumeData = {
-  name: 'ALEXANDER THOMAS AMES',
-  union: 'NON-UNION',
-  headshotUrl: HEADSHOT_1,
-  credits: [
-    { title: "My Wife's Billion Dollar Secret", role: "Tile's Assistant - Supporting", production: "Journey Entertainment" },
-    { title: "A Single Thread", role: "Nick - Lead", production: "Greta March Productions" },
-    { title: "Assist.net", role: "Noah - Lead", production: "Mi Amigo Productions" },
-    { title: "Caro", role: "Jacob - Lead", production: "Director: Jose Jerez" },
-    { title: "Candy", role: "Young Dad - Supporting", production: "Director: Jose Jerez" },
-    { title: "Ghosts", role: "Osvald Alving - Lead", production: "Greta March Productions" },
-    { title: "Drinking Habits", role: "George - Supporting", production: "Longmont Theatre Co." },
-    { title: "Alice in Wonderland", role: "Mad Hatter - Supporting", production: "Gilbert Theatre" },
-    { title: "The Mouse That Roared", role: "Tully Bascom - Supporting", production: "Gilbert Theatre" },
-    { title: "Robin Hood", role: "Sheriff of Nottingham - Supporting", production: "Gilbert Theatre" },
-  ],
-  physical: [
-    { label: 'Height', value: "6'" },
-    { label: 'Weight', value: '145 lbs' },
-  ],
-  skills: "Aerobics, Basketball, Billiards/Pool Player, Body Surfing, Boxing, Cycling, Cycling - Mountain Biking, Football, Golf, Gymnastics, Hackey Sack, Jump Rope, Kayaker, Ping Pong, Racquetball, Roller Skating, Running - General, Running - Sprint, Shooting - Revolver/Automatic, Skateboard - stunts, Snowboarding, Swimming - ability - general, Track & Field, Trampoline, Volleyball, Yoga, Acoustic Bass, Cello, Chef, Guitar, Piano, American - Southern Accent, American - Standard/General Accent, Fluent Spanish, Fluent Spanish - Mexico City",
-  resumeLink: 'https://resumes.actorsaccess.com/2093257-5848115'
-};
+export const MovingImagesView: React.FC = () => {
+  const [videos, setVideos] = useState(MOVING_IMAGES_VIDEOS);
 
-const Resume: React.FC = () => (
-  <div className="p-4 sm:p-6 md:p-8 font-sans text-brand-fg text-sm">
-    <header className="flex flex-col sm:flex-row justify-between items-start mb-4 text-xs text-gray-500">
-      <div>
-        <p>ALEXANDER THOMAS AMES - Resume | Actors Access</p>
-      </div>
-      <div className="text-left sm:text-right">
-        <p>www.actorsaccess.com</p>
-        <p>Breakdown Services, Ltd.</p>
-      </div>
-    </header>
+  const handleVideoUpload = (file: File) => {
+    // Create a local preview URL
+    const videoUrl = URL.createObjectURL(file);
+    // In production, upload to Backblaze B2 and get the URL
+    const newVideo = {
+      id: videos.length,
+      title: file.name.replace(/\.[^/.]+$/, ''),
+      thumbnail: videoUrl,
+      videoUrl: videoUrl,
+    };
+    setVideos([newVideo, ...videos]);
+    console.log('Video uploaded:', file.name);
+  };
 
-    <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
-      <img src={resumeData.headshotUrl} alt="Alexander Thomas Ames Headshot" className="w-32 border-2 border-brand-fg object-cover" />
-      <div className="pt-2">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-wider">{resumeData.name}</h2>
-        <p className="text-md">{resumeData.union}</p>
+  return (
+    <div>
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <h2 className="font-pixel text-4xl uppercase">Moving Images</h2>
+        <FileUploadButton
+          accept="video/*"
+          onFileSelect={handleVideoUpload}
+          label="Upload Video"
+          maxSize={500 * 1024 * 1024}
+        />
       </div>
-    </div>
-
-    <main>
-      <section className="mb-6">
-        <h3 className="text-xl font-bold border-b-2 border-brand-fg pb-1 mb-3">Résumé</h3>
-        <div className="space-y-3">
-          {resumeData.credits.map((credit, i) => (
-            <div key={i} className="flex flex-col sm:grid sm:grid-cols-3 sm:gap-4 items-baseline pb-2 border-b border-gray-200">
-              <div className="font-semibold">{credit.title}</div>
-              <div className="sm:pl-0 pl-2">{credit.role}</div>
-              <div className="sm:pl-0 pl-2 text-gray-600 sm:justify-self-end sm:text-right">{credit.production}</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {videos.map((video) => (
+          <div key={video.id} className="border-4 border-brand-fg shadow-hard bg-white">
+            <div className="aspect-video bg-black relative">
+              <video
+                src={video.videoUrl}
+                poster={video.thumbnail}
+                controls
+                className="w-full h-full object-contain"
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-6">
-        <h3 className="text-xl font-bold border-b-2 border-brand-fg pb-1 mb-3">Physical Characteristics / Measurements</h3>
-        <div className="flex gap-8">
-          {resumeData.physical.map(item => (
-            <div key={item.label}><strong>{item.label}:</strong> {item.value}</div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h3 className="text-xl font-bold border-b-2 border-brand-fg pb-1 mb-3">Skills</h3>
-        <p className="leading-relaxed">
-          {resumeData.skills}
-        </p>
-      </section>
-    </main>
-
-    <footer className="mt-8 pt-4 border-t-2 border-gray-300 text-xs text-gray-500 flex justify-between">
-      <a href={resumeData.resumeLink} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-brand-accent">{resumeData.resumeLink}</a>
-      <span>1/2</span>
-    </footer>
-  </div>
-);
-
-
-export const ActingView: React.FC = () => {
-  return (
-    <div>
-      <h2 className="font-pixel text-4xl uppercase mb-8 text-center">Acting</h2>
-      <div className="mb-12 border-4 border-brand-fg bg-white shadow-hard">
-        <Resume />
-      </div>
-
-      <h3 className="font-pixel text-3xl uppercase mb-8 text-center">Production Stills</h3>
-      <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
-        {ACTING_STILLS.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`Production Still ${index + 1}`}
-            className="mb-4 w-full h-auto block border-4 border-brand-fg shadow-hard"
-          />
+            <div className="p-4">
+              <h3 className="font-pixel text-xl uppercase">{video.title}</h3>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -126,48 +90,69 @@ export const ActingView: React.FC = () => {
 };
 
 
-const ResumeSection: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="mb-6">
-    <h3 className="font-pixel text-2xl uppercase border-b-2 border-brand-fg pb-1 mb-2">{title}</h3>
-    {children}
-  </div>
-);
+export const MusicView: React.FC = () => {
+  const [tracks, setTracks] = useState(MUSIC_TRACKS);
+  const [playingId, setPlayingId] = useState<number | null>(null);
 
-export const TechNerdView: React.FC = () => {
+  const handleAudioUpload = (file: File) => {
+    // Create a local preview URL
+    const audioUrl = URL.createObjectURL(file);
+    // In production, upload to Backblaze B2 and get the URL
+    const newTrack = {
+      id: tracks.length,
+      title: file.name.replace(/\.[^/.]+$/, ''),
+      artist: 'You',
+      duration: '0:00', // Would calculate from file metadata
+      audioUrl: audioUrl,
+    };
+    setTracks([newTrack, ...tracks]);
+    console.log('Audio uploaded:', file.name);
+  };
+
+  const handlePlay = (id: number) => {
+    setPlayingId(playingId === id ? null : id);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto">
-      <header className="text-center mb-8">
-        <h2 className="font-pixel text-4xl uppercase">{TECH_NERD_PROFILE.name}</h2>
-        <p className="font-sans text-md">{TECH_NERD_PROFILE.contact}</p>
-        <p className="font-sans text-md">{TECH_NERD_PROFILE.stats}</p>
-      </header>
+    <div>
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <h2 className="font-pixel text-4xl uppercase">Music</h2>
+        <FileUploadButton
+          accept="audio/*"
+          onFileSelect={handleAudioUpload}
+          label="Upload Audio"
+          maxSize={500 * 1024 * 1024}
+        />
+      </div>
       <div className="space-y-4">
-        <ResumeSection title="Projects">
-          <ul className="list-none space-y-2">
-            {TECH_NERD_PROFILE.projects.map((item, i) => (
-              <li key={i}>
-                <div className="flex flex-col sm:flex-row justify-between font-bold">
-                  <span>{item.name}</span>
-                  <span className="italic font-normal text-sm sm:text-base">{item.role}</span>
-                </div>
-                <p className="text-sm pl-2">{item.description}</p>
-              </li>
-            ))}
-          </ul>
-        </ResumeSection>
-        <ResumeSection title="Skills">
-          <ul className="list-none space-y-1">
-            {TECH_NERD_PROFILE.skills.map((item, i) => <li key={i}>{item}</li>)}
-          </ul>
-        </ResumeSection>
-        <ResumeSection title="Experience">
-          <ul className="list-none space-y-1">
-            {TECH_NERD_PROFILE.experience.map((item, i) => <li key={i}>{item}</li>)}
-          </ul>
-        </ResumeSection>
-        <ResumeSection title="Interests">
-          <p>{TECH_NERD_PROFILE.interests}</p>
-        </ResumeSection>
+        {tracks.map((track) => (
+          <div
+            key={track.id}
+            className="border-4 border-brand-fg shadow-hard bg-white p-4 sm:p-6 hover:bg-brand-accent-light transition-colors"
+          >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <button
+                onClick={() => handlePlay(track.id)}
+                className="font-pixel text-2xl bg-brand-accent-light border-2 border-brand-fg w-12 h-12 flex items-center justify-center hover:bg-brand-accent transition-colors"
+                aria-label={playingId === track.id ? 'Pause' : 'Play'}
+              >
+                {playingId === track.id ? '⏸' : '▶'}
+              </button>
+              <div className="flex-1">
+                <h3 className="font-pixel text-xl uppercase">{track.title}</h3>
+                <p className="font-sans text-sm text-gray-600">{track.artist}</p>
+              </div>
+              <div className="font-pixel text-lg">{track.duration}</div>
+            </div>
+            {playingId === track.id && (
+              <div className="mt-4">
+                <audio controls src={track.audioUrl} className="w-full">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -176,18 +161,24 @@ export const TechNerdView: React.FC = () => {
 export const AboutView: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto text-center">
-      <img
-        src="https://picsum.photos/seed/me/200/200"
-        alt="Portrait of the creator"
-        className="w-48 h-48 rounded-full mx-auto mb-6 border-4 border-brand-fg shadow-hard"
-      />
-      <h2 className="font-pixel text-4xl uppercase mb-4">{ABOUT_ME.name}</h2>
-      <p className="font-sans text-lg leading-relaxed mb-8">{ABOUT_ME.bio}</p>
+      <h2 className="font-pixel text-4xl uppercase mb-6">{ABOUT_INFO.name}</h2>
+      <p className="font-sans text-lg leading-relaxed mb-8">{ABOUT_INFO.bio}</p>
+
+      <div className="border-4 border-brand-fg shadow-hard bg-white p-6 mb-8">
+        <h3 className="font-pixel text-2xl uppercase mb-4">Features</h3>
+        <ul className="font-sans text-left space-y-2">
+          <li>• Upload and share still-life photography (JPG, TIFF)</li>
+          <li>• Share moving images and videos (MP4)</li>
+          <li>• Upload and stream music (MP3, WAV)</li>
+          <li>• Large file support (up to 500MB)</li>
+          <li>• Privacy-focused storage (no AI training on your content)</li>
+        </ul>
+      </div>
 
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <h3 className="font-pixel text-2xl">Find me on:</h3>
+        <h3 className="font-pixel text-2xl">Connect:</h3>
         <div className="flex flex-wrap justify-center gap-4">
-          {ABOUT_ME.socials.map(social => (
+          {ABOUT_INFO.socials.map(social => (
             <a
               key={social.name}
               href={social.url}

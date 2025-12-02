@@ -1,1 +1,1 @@
-export type PageView = 'home' | 'photography' | 'acting' | 'tech' | 'about';
+export type PageView = 'home' | 'still-life' | 'moving images' | 'music' | 'about';

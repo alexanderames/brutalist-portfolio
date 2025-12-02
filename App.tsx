@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { PageView } from './types';
 import HomeView from './components/HomeView';
-import { PhotographyView, ActingView, TechNerdView, AboutView } from './components/Views';
+import { StillLifeView, MovingImagesView, MusicView, AboutView } from './components/Views';
 import PixelButton from './components/PixelButton';
 
 const App: React.FC = () => {
@@ -9,12 +9,12 @@ const App: React.FC = () => {
 
     const renderView = () => {
         switch (view) {
-            case 'photography':
-                return <PhotographyView />;
-            case 'acting':
-                return <ActingView />;
-            case 'tech':
-                return <TechNerdView />;
+            case 'still-life':
+                return <StillLifeView />;
+            case 'moving images':
+                return <MovingImagesView />;
+            case 'music':
+                return <MusicView />;
             case 'about':
                 return <AboutView />;
             case 'home':
