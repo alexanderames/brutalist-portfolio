@@ -1,1 +1,15 @@
 node_modules
+
+
+ignore all files I don't want the public to see
+.claude/*
+.claude/**/*
+.claude/**/**/*
+.claude/**/**/**/*
+.claude/**/**/**/**/*
+.claude/**/**/**/**/**/*
+.claude/**/**/**/**/**/**/*
+.claude/**/**/**/**/**/**/**/*
+.claude/**/**/**/**/**/**/**/**/*
+.claude/**/**/**/**/**/**/**/**/**/*
+.claude/**/**/**/**/**/**/**/**/**/**/*
