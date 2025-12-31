@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'pixel': ['VT323', 'monospace'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                      'brand-bg': '#EAE7E0',
+                      'brand-fg': '#1A1A1A',
+                      'brand-accent': '#D97706', // amber-600
+                      'brand-accent-light': '#F59E0B', // amber-500
+                    },
+                    boxShadow: {
+                      'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
+                      'hard-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EAE7E0; /* brand-bg */
+        }
+        .aspect-video {
+          position: relative;
+          width: 100%;
+          padding-bottom: 56.25%; /* 16:9 */
+        }
+        .aspect-video iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .animate-blink {
+            animation: blink 1s step-end infinite;
+        }
+    </style>
+
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-Bt78-VKe.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
