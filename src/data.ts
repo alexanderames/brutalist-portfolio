@@ -18,13 +18,15 @@ export const MOVING_IMAGES_VIDEOS = Array.from({ length: 6 }, (_, i) => ({
     videoUrl: `https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4`, // Placeholder
 }));
 
-// Sample music tracks (replace with actual uploaded audio files)
-export const MUSIC_TRACKS = Array.from({ length: 8 }, (_, i) => ({
+// Music tracks (3, 6, 8 only; 1, 2, 4, 5, 7 removed)
+const TRACK_INDICES = [3, 6, 8];
+const TRACK_TITLES = ['Glass Horizon', 'Rust', 'Night Drift'];
+export const MUSIC_TRACKS = TRACK_INDICES.map((songNum, i) => ({
     id: i,
-    title: `Track ${i + 1}`,
+    title: TRACK_TITLES[i],
     artist: 'Various Artists',
     duration: '3:45',
-    audioUrl: `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${i + 1}.mp3`, // Placeholder
+    audioUrl: `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${songNum}.mp3`,
 }));
 
 export const ABOUT_INFO = {
