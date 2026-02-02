@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { STILL_LIFE_IMAGES, MOVING_IMAGES_VIDEOS, MUSIC_TRACKS, ABOUT_INFO, PORTFOLIO_DATA, Experience, Education, Skill, Project, Certification } from '../data';
 import FileUploadButton from './FileUploadButton';
+import { ProtectedImage, ProtectedVideo, ProtectedAudio } from './ProtectedMedia';
+import { SecureImage, SecureVideo, SecureAudio } from './SecureMedia';
 
 export const StillLifeView: React.FC = () => {
   const [images, setImages] = useState(STILL_LIFE_IMAGES);
@@ -26,11 +28,12 @@ export const StillLifeView: React.FC = () => {
       </div>
       <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
         {images.map((src, index) => (
-          <img
+          <SecureImage
             key={index}
             src={src}
             alt={`Still Life ${index + 1}`}
             className="mb-4 w-full h-auto block border-4 border-brand-fg shadow-hard cursor-pointer hover:opacity-90 transition-opacity"
+            watermark
           />
         ))}
       </div>
@@ -70,14 +73,14 @@ export const MovingImagesView: React.FC = () => {
         {videos.map((video) => (
           <div key={video.id} className="border-4 border-brand-fg shadow-hard bg-white">
             <div className="aspect-video bg-black relative">
-              <video
+              <SecureVideo
                 src={video.videoUrl}
                 poster={video.thumbnail}
                 controls
                 className="w-full h-full object-contain"
               >
                 Your browser does not support the video tag.
-              </video>
+              </SecureVideo>
             </div>
             <div className="p-4">
               <h3 className="font-pixel text-xl uppercase">{video.title}</h3>
@@ -161,7 +164,7 @@ export const MusicView: React.FC = () => {
             </div>
             {expandedId === track.id && (
               <div className="mt-4">
-                <audio
+                <SecureAudio
                   ref={audioRef}
                   controls
                   src={track.audioUrl}
@@ -170,7 +173,7 @@ export const MusicView: React.FC = () => {
                   onPause={() => setIsPlaying(false)}
                 >
                   Your browser does not support the audio element.
-                </audio>
+                </SecureAudio>
               </div>
             )}
           </div>

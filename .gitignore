@@ -1,6 +1,9 @@
 # node_modules directory: contains dependencies installed by npm/yarn
 node_modules
 
+# Server session/secret (create locally or use SESSION_SECRET env)
+.session-secret
+
 # All environment variable files, containing secrets or config for different environments
 .env
 .env.local
