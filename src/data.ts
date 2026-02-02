@@ -1,7 +1,14 @@
 import type { PageView } from './types';
 
-// Sample images for still-life gallery (replace with actual uploaded images)
-export const STILL_LIFE_IMAGES = Array.from({ length: 9 }, (_, i) => `https://picsum.photos/seed/still${i}/${i % 2 === 0 ? 800 : 600}/${i % 2 === 0 ? 600 : 800}`);
+// Still-life gallery images from directories starting with an integer (public/40860_119374_268264, public/000220490001)
+const dir1 = '40860_119374_268264';
+const dir2 = '000220490001';
+const galleryFromDir1 = Array.from({ length: 37 }, (_, i) => `/${dir1}/kodak_200_c_41_40860_119374_268264_${String(8400001 + i).padStart(12, '0')}.jpg`);
+const galleryFromDir2 = Array.from({ length: 38 }, (_, i) => `/${dir2}/kodak_400_c_41_40860_119374_268265_${String(8410001 + i).padStart(12, '0')}.jpg`);
+export const STILL_LIFE_IMAGES = [
+  ...galleryFromDir1,
+  ...galleryFromDir2,
+];
 
 // Sample videos for moving images gallery (replace with actual uploaded videos)
 export const MOVING_IMAGES_VIDEOS = Array.from({ length: 6 }, (_, i) => ({

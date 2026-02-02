@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { STILL_LIFE_IMAGES, MOVING_IMAGES_VIDEOS, MUSIC_TRACKS, ABOUT_INFO, PORTFOLIO_DATA, Experience, Education, Skill, Project, Certification } from '../data';
 import FileUploadButton from './FileUploadButton';
 
@@ -92,25 +92,40 @@ export const MovingImagesView: React.FC = () => {
 
 export const MusicView: React.FC = () => {
   const [tracks, setTracks] = useState(MUSIC_TRACKS);
-  const [playingId, setPlayingId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (expandedId !== null) {
+      const el = audioRef.current;
+      if (el) el.play().catch(() => {});
+    }
+  }, [expandedId]);
 
   const handleAudioUpload = (file: File) => {
-    // Create a local preview URL
     const audioUrl = URL.createObjectURL(file);
-    // In production, upload to Backblaze B2 and get the URL
     const newTrack = {
       id: Math.max(0, ...tracks.map((t) => t.id)) + 1,
       title: file.name.replace(/\.[^/.]+$/, ''),
       artist: 'You',
-      duration: '0:00', // Would calculate from file metadata
+      duration: '0:00',
       audioUrl: audioUrl,
     };
     setTracks([newTrack, ...tracks]);
     console.log('Audio uploaded:', file.name);
   };
 
-  const handlePlay = (id: number) => {
-    setPlayingId(playingId === id ? null : id);
+  const handleBigButtonClick = (trackId: number) => {
+    if (expandedId === trackId) {
+      if (isPlaying) {
+        audioRef.current?.pause();
+      } else {
+        audioRef.current?.play();
+      }
+    } else {
+      setExpandedId(trackId);
+    }
   };
 
   return (
@@ -132,11 +147,11 @@ export const MusicView: React.FC = () => {
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <button
-                onClick={() => handlePlay(track.id)}
+                onClick={() => handleBigButtonClick(track.id)}
                 className="font-pixel text-2xl bg-brand-accent-light border-2 border-brand-fg w-12 h-12 flex items-center justify-center hover:bg-brand-accent transition-colors"
-                aria-label={playingId === track.id ? 'Pause' : 'Play'}
+                aria-label={expandedId === track.id && isPlaying ? 'Pause' : 'Play'}
               >
-                {playingId === track.id ? '⏸' : '▶'}
+                {expandedId === track.id && isPlaying ? '⏸' : '▶'}
               </button>
               <div className="flex-1">
                 <h3 className="font-pixel text-xl uppercase">{track.title}</h3>
@@ -144,9 +159,16 @@ export const MusicView: React.FC = () => {
               </div>
               <div className="font-pixel text-lg">{track.duration}</div>
             </div>
-            {playingId === track.id && (
+            {expandedId === track.id && (
               <div className="mt-4">
-                <audio controls src={track.audioUrl} className="w-full">
+                <audio
+                  ref={audioRef}
+                  controls
+                  src={track.audioUrl}
+                  className="w-full"
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                >
                   Your browser does not support the audio element.
                 </audio>
               </div>
