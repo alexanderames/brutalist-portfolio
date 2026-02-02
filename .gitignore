@@ -1,0 +1,31 @@
+# node_modules directory: contains dependencies installed by npm/yarn
+node_modules
+
+# All environment variable files, containing secrets or config for different environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Distribution directory: built output files for production/deployment
+dist
+
+# macOS system file (should not be checked in)
+.DS_Store
+
+# Explicitly ignore named environment files for each stage
+.env.development
+.env.test
+.env.production
+
+# Duplicates below are a safeguard for tools that might generate these files
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore any file or folder (at any level) starting with an integer (0-9)
+[0-9]*
+
+.*
+!/.gitignore
