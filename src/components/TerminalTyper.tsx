@@ -47,7 +47,7 @@ const TerminalTyper: React.FC<TerminalTyperProps> = ({ onHireClick }) => {
     <div
       onClick={onHireClick}
       className="font-pixel text-lg sm:text-xl md:text-2xl bg-[#2E3440] text-left p-4 sm:p-6 w-full max-w-4xl mx-auto mb-12 shadow-hard border-2 border-gray-600 cursor-pointer transition-transform hover:-translate-y-1"
-      aria-label="Collaboration prompt, click to open contact form"
+      aria-label="Collaboration prompt, click to open upload modal"
       role="button"
       tabIndex={0}
       onKeyPress={(e) => { if (e.key === 'Enter') onHireClick(); }}
