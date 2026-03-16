@@ -25,14 +25,6 @@ test.describe('Enjoy the app', () => {
     await expect(page.getByRole('button', { name: 'Pause' }).first()).toBeVisible();
   });
 
-  test('Portfolio shows experience and skills', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('button', { name: /portfolio/i }).click();
-    await expect(page.getByText('Caris Life Sciences')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Skills' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Education' })).toBeVisible();
-  });
-
   test('About shows features and connect links', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: /about/i }).click();

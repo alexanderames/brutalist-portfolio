@@ -1,6 +1,6 @@
 # Deployment & Setup Guide
 
-This guide covers everything you need to deploy your portfolio site, set up a free domain, add file upload functionality, and automate deployments.
+This guide covers everything you need to deploy your media share site, set up a free domain, add file upload functionality, and automate deployments.
 
 ---
 
@@ -17,7 +17,7 @@ This guide covers everything you need to deploy your portfolio site, set up a fr
 - **Note**: For professional use, consider purchasing a domain ($10-15/year from Namecheap, Google Domains, etc.)
 
 ### Recommended Approach
-1. Start with a free subdomain from your hosting provider (e.g., `your-portfolio.vercel.app`)
+1. Start with a free subdomain from your hosting provider (e.g., `your-site.vercel.app`)
 2. Later, purchase a custom domain and connect it to your hosting
 
 ---

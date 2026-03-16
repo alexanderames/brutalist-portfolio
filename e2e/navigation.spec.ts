@@ -38,13 +38,6 @@ test.describe('Navigation', () => {
     await expect(page.getByRole('link', { name: 'Instagram' })).toBeVisible();
   });
 
-  test('navigate to Portfolio and see experience', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('button', { name: /portfolio/i }).click();
-    await expect(page.getByText('Alexander Ames')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Experience' })).toBeVisible();
-  });
-
   test('Back to Home returns from any view', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: /still life/i }).click();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { PageView } from './types';
 import HomeView from './components/HomeView';
-import { StillLifeView, MovingImagesView, MusicView, AboutView, PortfolioView } from './components/Views';
+import { StillLifeView, MovingImagesView, MusicView, AboutView } from './components/Views';
 import PixelButton from './components/PixelButton';
 
 const App: React.FC = () => {
@@ -17,8 +17,6 @@ const App: React.FC = () => {
                 return <MusicView />;
             case 'about':
                 return <AboutView />;
-            case 'portfolio':
-                return <PortfolioView />;
             case 'home':
             default:
                 return <HomeView navigateTo={setView} />;

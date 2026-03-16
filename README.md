@@ -1,10 +1,12 @@
 # port-brutal
 
-Portfolio app with brutalist design: still life, moving images, music, about, and portfolio views. Upload media via the terminal prompt on the home page.
+Media share app with brutalist design: still life, moving images, music, and about views. Anyone can use and upload to it. Upload media via the terminal prompt on the home page.
 
 ## Scripts
 
-- **`npm run dev`** – Start dev server at http://localhost:5173
+- **`npm run dev`** – Start Vite dev server at http://localhost:5173 (frontend only; media will not load without the backend)
+- **`npm run dev:all`** – Start **backend + frontend** (recommended for local dev so images, video, and audio load)
+- **`npm run server`** – Start media API backend only (port 3001)
 - **`npm run build`** – Production build to `dist/`
 - **`npm run preview`** – Serve production build
 - **`npm run test:e2e`** – Run Playwright E2E tests (starts dev server if needed)
@@ -14,9 +16,9 @@ Portfolio app with brutalist design: still life, moving images, music, about, an
 
 Tests cover:
 
-- **Navigation** – Home portal cards, Still Life, Moving Images, Music, About, Portfolio, and Back to Home
+- **Navigation** – Home portal cards, Still Life, Moving Images, Music, About, and Back to Home
 - **Upload** – Opening the upload modal from the terminal, choosing a section, and uploading a photo on Still Life
-- **Enjoy** – Viewing galleries, playing music, and reading Portfolio/About content
+- **Enjoy** – Viewing galleries, playing music, and reading About content
 
 Run all tests:
 

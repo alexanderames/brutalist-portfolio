@@ -65,24 +65,7 @@ const AboutIcon: React.FC = () => (
     </svg>
 );
 
-const PortfolioIcon: React.FC = () => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 sm:w-16 sm:h-16 mx-auto">
-        {/* Briefcase/Portfolio Icon */}
-        <rect x="8" y="20" width="48" height="32" stroke="currentColor" strokeWidth="4" fill="white"/>
-        <rect x="12" y="24" width="40" height="24" fill="#1A1A1A"/>
-        {/* Handle */}
-        <rect x="24" y="12" width="16" height="8" stroke="currentColor" strokeWidth="4" fill="white"/>
-        {/* Briefcase Details */}
-        <rect x="16" y="28" width="12" height="16" fill="white"/>
-        <rect x="36" y="28" width="12" height="16" fill="white"/>
-        {/* Lock */}
-        <rect x="28" y="32" width="8" height="6" fill="#F97316"/>
-        <circle cx="32" cy="35" r="1" fill="#1A1A1A"/>
-    </svg>
-);
-
 export const PORTALS = [
-    { id: 'portfolio' as PageView, title: 'Portfolio', icon: <PortfolioIcon /> },
     { id: 'still-life' as PageView, title: 'Still Life', icon: <StillLifeIcon /> },
     { id: 'moving images' as PageView, title: 'Moving Images', icon: <MovingImagesIcon /> },
     { id: 'music' as PageView, title: 'Music', icon: <MusicIcon /> },

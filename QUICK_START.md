@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-This is a quick reference for getting your portfolio site deployed and set up.
+This is a quick reference for getting your media share site deployed and set up.
 
 ## 📋 What's Been Done
 
