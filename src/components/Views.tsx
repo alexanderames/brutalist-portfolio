@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { STILL_LIFE_IMAGES, MOVING_IMAGES_VIDEOS, MUSIC_TRACKS, ABOUT_INFO } from '../data';
-import FileUploadButton from './FileUploadButton';
-import { ProtectedImage, ProtectedVideo, ProtectedAudio } from './ProtectedMedia';
-import { SecureImage, SecureVideo, SecureAudio } from './SecureMedia';
+import { STILL_LIFE_IMAGES, MOVING_IMAGES_VIDEOS, MUSIC_TRACKS, ABOUT_INFO } from '../data.js';
+import FileUploadButton from './FileUploadButton.js';
+import { ProtectedImage, ProtectedVideo, ProtectedAudio } from './ProtectedMedia.js';
+import { SecureImage, SecureVideo, SecureAudio } from './SecureMedia.js';
 
 export const StillLifeView: React.FC = () => {
   const [images, setImages] = useState(STILL_LIFE_IMAGES);
@@ -27,7 +27,7 @@ export const StillLifeView: React.FC = () => {
         />
       </div>
       <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
-        {images.map((src, index) => (
+        {images.map((src: string, index: number) => (
           <SecureImage
             key={index}
             src={src}
@@ -49,7 +49,7 @@ export const MovingImagesView: React.FC = () => {
     const videoUrl = URL.createObjectURL(file);
     // In production, upload to Backblaze B2 and get the URL
     const newVideo = {
-      id: Math.max(0, ...videos.map((v) => v.id)) + 1,
+      id: Math.max(0, ...videos.map((v: { id: number }) => v.id)) + 1,
       title: file.name.replace(/\.[^/.]+$/, ''),
       thumbnail: videoUrl,
       videoUrl: videoUrl,
@@ -70,7 +70,7 @@ export const MovingImagesView: React.FC = () => {
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {videos.map((video) => (
+        {videos.map((video: { id: number; title: string; thumbnail: string; videoUrl: string }) => (
           <div key={video.id} className="border-4 border-brand-fg shadow-hard bg-white">
             <div className="aspect-video bg-black relative">
               <SecureVideo
@@ -109,7 +109,7 @@ export const MusicView: React.FC = () => {
   const handleAudioUpload = (file: File) => {
     const audioUrl = URL.createObjectURL(file);
     const newTrack = {
-      id: Math.max(0, ...tracks.map((t) => t.id)) + 1,
+      id: Math.max(0, ...tracks.map((t: { id: number }) => t.id)) + 1,
       title: file.name.replace(/\.[^/.]+$/, ''),
       artist: 'You',
       duration: '0:00',
@@ -143,7 +143,7 @@ export const MusicView: React.FC = () => {
         />
       </div>
       <div className="space-y-4">
-        {tracks.map((track) => (
+        {tracks.map((track: { id: number; title: string; artist: string; duration: string; audioUrl: string }) => (
           <div
             key={track.id}
             className="border-4 border-brand-fg shadow-hard bg-white p-4 sm:p-6 hover:bg-brand-accent-light transition-colors"
