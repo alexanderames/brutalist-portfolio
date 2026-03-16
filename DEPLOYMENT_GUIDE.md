@@ -7,9 +7,8 @@ This guide covers everything you need to deploy your media share site, set up a 
 ## 1. Find a Free Domain to Host the Site
 
 ### Option A: Free Subdomain (Recommended for Quick Start)
-- **Cloudflare Pages**: Offers free subdomains like `your-site.pages.dev`
-- **Vercel**: Provides free subdomains like `your-site.vercel.app`
-- **Netlify**: Offers free subdomains like `your-site.netlify.app`
+- **Cloudflare Pages**: Free subdomains like `your-project.pages.dev` — no CLI or tokens required
+- **Netlify**: Free subdomains like `your-project.netlify.app`
 
 ### Option B: Custom Domain (Free Options)
 - **Freenom** (.tk, .ml, .ga, .cf domains): Free but unreliable, often flagged by browsers
@@ -17,92 +16,39 @@ This guide covers everything you need to deploy your media share site, set up a 
 - **Note**: For professional use, consider purchasing a domain ($10-15/year from Namecheap, Google Domains, etc.)
 
 ### Recommended Approach
-1. Start with a free subdomain from your hosting provider (e.g., `your-site.vercel.app`)
+1. Start with a free subdomain from your hosting provider (e.g., `your-project.pages.dev`)
 2. Later, purchase a custom domain and connect it to your hosting
 
 ---
 
 ## 2. Deploy the Site
 
-### Recommended: Vercel (Easiest for React Apps)
+No CLI or extra npm packages are required. Connect your Git repo and the host builds and deploys for you.
 
-#### Step 1: Prepare Your Project
-Your project currently uses ES modules directly. For production deployment, you'll need a build step:
+### Recommended: Cloudflare Pages (Free, no CLI)
 
-1. **Create `package.json`** (see `package.json.example` for reference):
-   ```bash
-   npm init -y
-   npm install react react-dom
-   npm install -D @types/react @types/react-dom typescript vite @vitejs/plugin-react
-   ```
+1. Push your code to a GitHub repository.
+2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
+3. Select your GitHub repo and authorize Cloudflare.
+4. Configure the build:
+   - **Framework preset**: Vite (or None)
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+5. Click **Save and Deploy**. Your site will be live at `your-project.pages.dev`.
 
-2. **Create `vite.config.ts`** (copy from `vite.config.ts.example`):
-   ```typescript
-   import { defineConfig } from 'vite';
-   import react from '@vitejs/plugin-react';
-
-   export default defineConfig({
-     plugins: [react()],
-     build: {
-       outDir: 'dist',
-     },
-   });
-   ```
-
-3. **Update `package.json` scripts**:
-   ```json
-   {
-     "scripts": {
-       "dev": "vite",
-       "build": "vite build",
-       "preview": "vite preview"
-     }
-   }
-   ```
-
-4. **Update `index.html`** to use the built version:
-   - Change `<script type="module" src="/index.tsx"></script>` to `<script type="module" src="/src/index.tsx"></script>` (if using src folder)
-   - Or ensure Vite can find your entry point (Vite looks for `index.html` in root by default)
-
-#### Step 2: Deploy to Vercel
-
-**Method 1: Via GitHub (Recommended)**
-1. Push your code to a GitHub repository
-2. Go to [vercel.com](https://vercel.com) and sign up/login with GitHub
-3. Click "New Project" → Import your repository
-4. Vercel will auto-detect React and configure settings
-5. Click "Deploy"
-6. Your site will be live at `your-project.vercel.app`
-
-**Method 2: Via Vercel CLI**
-```bash
-npm install -g vercel
-vercel login
-vercel
-```
+Cloudflare Pages auto-deploys on every push to your default branch. No tokens or GitHub Actions needed.
 
 ### Alternative: Netlify
 
-1. Push code to GitHub
-2. Go to [netlify.com](https://netlify.com) and sign up
-3. Click "Add new site" → "Import an existing project"
-4. Connect GitHub repository
-5. Build settings:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-6. Click "Deploy site"
+1. Push code to GitHub.
+2. Go to [netlify.com](https://netlify.com) and sign up with GitHub.
+3. **Add new site** → **Import an existing project** → choose your repo.
+4. Build settings:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+5. Click **Deploy site**. Your site will be at `your-project.netlify.app`.
 
-### Alternative: Cloudflare Pages
-
-1. Push code to GitHub
-2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Pages
-3. Click "Create a project" → "Connect to Git"
-4. Select repository
-5. Build settings:
-   - Framework preset: Vite
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-6. Click "Save and Deploy"
+Netlify also auto-deploys on push when connected to Git.
 
 ---
 
@@ -170,95 +116,28 @@ To actually upload files, you'll need a backend service. **Privacy-focused optio
 
 ---
 
-## 4. Set Up CI/CD Pipeline
+## 4. CI/CD (Automatic Deploys)
 
-### GitHub Actions Workflow (Automatic)
-
-Create `.github/workflows/deploy.yml` (see `.github/workflows/deploy.yml.example` for reference):
-
-```yaml
-name: Deploy to Production
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build project
-        run: npm run build
-      
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-```
-
-### Setting Up Secrets (for Vercel):
-
-1. Get your Vercel tokens:
-   - Go to Vercel Dashboard → Settings → Tokens
-   - Create a new token
-   - Get Org ID and Project ID from your project settings
-
-2. Add secrets to GitHub:
-   - Go to your GitHub repo → Settings → Secrets and variables → Actions
-   - Add:
-     - `VERCEL_TOKEN`: Your Vercel token
-     - `VERCEL_ORG_ID`: Your organization ID
-     - `VERCEL_PROJECT_ID`: Your project ID
-
-### Alternative: Netlify CI/CD
-
-If using Netlify, the GitHub integration handles CI/CD automatically. Just connect your repo and Netlify will:
-- Build on every push to `main`
-- Deploy automatically
-- Provide preview deployments for PRs
-
-### Alternative: Cloudflare Pages CI/CD
-
-Cloudflare Pages also auto-deploys on push to `main` when connected to GitHub. No additional setup needed.
+**Cloudflare Pages** and **Netlify** both deploy automatically when you connect your GitHub repo. Every push to your default branch triggers a build and deploy. No GitHub Actions or secrets are required.
 
 ---
 
 ## Quick Start Checklist
 
-- [ ] Set up build configuration (Vite)
 - [ ] Push code to GitHub
-- [ ] Deploy to Vercel/Netlify/Cloudflare Pages
+- [ ] Deploy to Cloudflare Pages or Netlify (connect repo, set build command and output dir)
 - [ ] Test the deployment
-- [ ] Set up GitHub Actions workflow (if using Vercel)
-- [ ] Add secrets to GitHub (if using Vercel)
-- [ ] Test CI/CD by pushing to `main`
-- [ ] (Optional) Purchase and connect custom domain
+- [ ] (Optional) Add a custom domain in the host’s dashboard
+- [ ] (Optional) Set up a file upload backend (e.g. Backblaze B2)
 
 ---
 
 ## Next Steps
 
-1. **Custom Domain**: Once deployed, you can add a custom domain in your hosting provider's dashboard
-2. **File Upload Backend**: Set up a service like Cloudinary or Firebase Storage for actual file uploads
-3. **Analytics**: Add analytics (Vercel Analytics, Google Analytics, etc.)
-4. **Performance**: Optimize images and add lazy loading
+1. **Custom domain**: Add and connect a domain in your host’s dashboard.
+2. **File upload backend**: Use a service like Backblaze B2 or Firebase Storage for uploads.
+3. **Analytics**: Add Google Analytics or your host’s built-in analytics if needed.
+4. **Performance**: Optimize images and use lazy loading where useful.
 
 ---
 

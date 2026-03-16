@@ -25,25 +25,22 @@ npm install
 npm run build
 ```
 
-### 2. Deploy to Vercel (10 minutes)
+### 2. Deploy for free (no CLI, ~5 minutes)
 
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com) → Sign up with GitHub
-3. Click "New Project" → Import your repository
-4. Vercel auto-detects React → Click "Deploy"
-5. Your site is live at `your-project.vercel.app` 🎉
+**Cloudflare Pages (recommended)**  
+1. Push your code to GitHub  
+2. Go to [dash.cloudflare.com](https://dash.cloudflare.com) → Workers & Pages → Create → Pages → Connect to Git  
+3. Select your repo. Build command: `npm run build`, output directory: `dist`  
+4. Deploy. Your site is live at `your-project.pages.dev` 🎉  
 
-### 3. Set Up CI/CD (5 minutes)
+**Netlify**  
+1. Push to GitHub → [netlify.com](https://netlify.com) → Add new site → Import from Git  
+2. Build command: `npm run build`, publish directory: `dist`  
+3. Deploy. Site is at `your-project.netlify.app`  
 
-1. Copy `.github/workflows/deploy.yml.example` to `.github/workflows/deploy.yml`
-2. Get Vercel tokens from Vercel Dashboard → Settings → Tokens
-3. Add secrets to GitHub: Settings → Secrets → Actions
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-4. Push to `main` branch → Auto-deploys! 🚀
+Both auto-deploy on every push to `main` — no tokens or GitHub Actions needed.
 
-### 4. Use FileUploadButton (2 minutes)
+### 3. Use FileUploadButton (2 minutes)
 
 ```tsx
 import FileUploadButton from './components/FileUploadButton';
@@ -77,10 +74,9 @@ See `FILE_UPLOAD_EXAMPLE.md` for more examples including Backblaze B2 integratio
 
 ## 💡 Tips
 
-- **Free Domain**: Start with Vercel's free subdomain, upgrade to custom domain later
-- **File Uploads**: Use Backblaze B2 (free tier: 10GB storage) - privacy-focused, doesn't use content for AI training
-- **Large Files**: Component supports up to 500MB by default (configurable) - perfect for large JPG, TIFF, MP4, WAV, MP3 files
-- **CI/CD**: Vercel/Netlify auto-deploy from GitHub - no GitHub Actions needed!
+- **Free hosting**: Cloudflare Pages and Netlify both offer free tiers; connect your repo and they build and deploy.
+- **File uploads**: Use Backblaze B2 (free tier: 10GB storage)—privacy-focused, doesn’t use content for AI training.
+- **Large files**: Component supports up to 500MB by default (configurable)—good for JPG, TIFF, MP4, WAV, MP3.
 
 ## 🆘 Need Help?
 

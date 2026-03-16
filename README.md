@@ -2,6 +2,8 @@
 
 Media share app with brutalist design: still life, moving images, music, and about views. Anyone can use and upload to it. Upload media via the terminal prompt on the home page.
 
+**Large file support:** The UI accepts images, video, and audio up to **500MB** per file (configurable). Uploads are previewed in-session; to persist them, plug in a storage backend (e.g. [Backblaze B2](https://www.backblaze.com/b2/)) as in the deployment guide.
+
 ## Scripts
 
 - **`npm run dev`** – Start Vite dev server at http://localhost:5173 (frontend only; media will not load without the backend)
